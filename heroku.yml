@@ -4,7 +4,7 @@ setup:
       as: DATABASE
 build:
   docker:
-    bookmark-manager-api: Dockerfile
+    bookmark-manager-api: ./bookmark-manager-api/Dockerfile
     worker: ./bookmark-manager-api/Dockerfile
   config:
     RAILS_ENV: staging
