@@ -1,4 +1,4 @@
-FROM ruby:2.7.1
+FROM ruby:3.0-buster
 
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 
@@ -15,5 +15,3 @@ COPY . .
 RUN gem install bundler && bundle install
 
 EXPOSE 4000
-
-ENTRYPOINT ["rails", "server", "-p", "4000", "-b", "0.0.0.0"]
