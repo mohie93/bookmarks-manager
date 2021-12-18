@@ -1,9 +1,7 @@
 class BookmarkUrlValidator < ActiveModel::Validator
   def validate(record)
-    url_valid = UrlService.validate_url(record.url)
-    if !url_valid
-      record.errors.add :base, "Invalid URL"
-    end
+    url_valid = record.url.match('^(http|https):\/\/|[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/ix')
+    record.errors.add :base, "Invalid URL" unless url_valid
   end
 end
 
@@ -21,7 +19,7 @@ class Bookmark < ApplicationRecord
   def shorten_url
     short_url = (5...30).map { ('a'..'z').to_a[rand(26)] }.join
     bookmark = Bookmark.find_by(short_url: short_url)
-    return bookmark.present? ? self.short_url : self.short_url = short_url
+    bookmark.present? ? self.short_url : self.short_url = short_url
   end
 
   private
