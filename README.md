@@ -17,10 +17,17 @@ Web App to manage web-bookmarks
 - Run command `docker-compose build`
 - Run command `docker-compose up`
 - Wait till the build completed
-- Go to `http://localhost:4000`
+- Hit API via postman to `http://localhost:4000`
+
+## How to deploy the app:
+- Make sure you have heroku on your machine installed
+- Get login credentials from your peers
+- Login to heroku
+- Run command `git remote add staging https://git.heroku.com/staging-bookmark-manager.git` to add remote repo
+- Run command `git push heroku main` to build the code
 
 ## Todos:
-
+- [ ] Add CI to manage deployment to reduce human errors
 - [ ] Apply V2 todos
 - [ ] Apply v3 todos
 
