@@ -17,6 +17,7 @@ services:
       - BOOKMARK_MANAGER_API_DATABASE_USERNAME=postgres
       - BOOKMARK_MANAGER_API_DATABASE_PASSWORD=postgres
       - BOOKMARK_MANAGER_API_DATABASE_HOST=database
+    command: bash -c "rails db:create db:migrate && rails server -p 4000 -b 0.0.0.0"
     ports:
       - "4000:4000"
     depends_on:
