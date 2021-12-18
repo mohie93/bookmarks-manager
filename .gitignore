@@ -95,6 +95,10 @@ tmp
 .idea
 .idea/*
 
+# DB temp
+database-temp
+database-temp/*
+
 # Rails secrets
 application.yml
 
