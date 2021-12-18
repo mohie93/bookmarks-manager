@@ -12,7 +12,7 @@ services:
       - ./database-temp/db:/var/lib/postgresql/data
 
   api:
-    build: ./bookmark-manager-api
+    build: .
     environment:
       - BOOKMARK_MANAGER_API_DATABASE_USERNAME=postgres
       - BOOKMARK_MANAGER_API_DATABASE_PASSWORD=postgres
@@ -22,10 +22,3 @@ services:
       - "4000:4000"
     depends_on:
       - database
-
-  # Uncomment for V2
-  # ui:
-  #   build: ./bookmark-manager-ui
-  #   ports:
-  #     - "3000:3000"
-  #   stdin_open: true
