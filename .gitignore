@@ -14,7 +14,7 @@ pickle-email-*.html
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
+/tmp/db
 !/log/.keep
 !/tmp/.keep
 

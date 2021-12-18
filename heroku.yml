@@ -4,8 +4,7 @@ setup:
       as: DATABASE
 build:
   docker:
-    bookmark-manager-api: ./bookmark-manager-api/Dockerfile
-    worker: ./bookmark-manager-api/Dockerfile
+    bookmark-manager-api: Dockerfile
   config:
     RAILS_ENV: staging
     DATABASE_URL: postgres://itaoroibqfllzk:902a7d5d5802dde9a17499e05c6cbe1f205ff6fdaae19eb76690e738dea6b2ce@ec2-107-21-211-154.compute-1.amazonaws.com:5432/de56cbnelpvsi6
