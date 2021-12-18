@@ -1,5 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Bookmark, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'has a title' do
+
+  end
+
+  it 'has a url' do
+
+  end
+
+  it 'has a valid url' do
+
+  end
+
+  it 'update the short url after entity update' do
+
+  end
 end
