@@ -1,0 +1,21 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+# Configure Using Gemfile
+# gem 'pg'
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV['BOOKMARK_MANAGER_API_DATABASE_HOST'] { localhost } %>
+  username: <%= ENV['BOOKMARK_MANAGER_API_DATABASE_USERNAME'] %>
+  password: <%= ENV['BOOKMARK_MANAGER_API_DATABASE_PASSWORD'] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: bookmark_manager_api_development
+test:
+  <<: *default
+  database: bookmark_manager_api_test
+production:
+  <<: *default
+  database: bookmark_manager_api_production
