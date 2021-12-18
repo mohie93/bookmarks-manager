@@ -10,7 +10,7 @@ COPY Gemfile ./api-app/Gemfile
 
 COPY Gemfile.lock ./api-app/Gemfile.lock
 
-COPY bookmark-manager-api .
+COPY . .
 
 RUN gem install bundler && bundle install
 
