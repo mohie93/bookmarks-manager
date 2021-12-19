@@ -1,4 +1,4 @@
-name: Rails Test
+name: Test
 on:
   push:
     branches:
@@ -35,7 +35,7 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
       - name: Run db migration
-        run: bundle exec rails db:migrate
+        run: bundle exec rake db:create db:migrate 2>/dev/null || bundle exec rake db:migrate
         env:
           BOOKMARK_MANAGER_API_DATABASE_USERNAME: postgres
           BOOKMARK_MANAGER_API_DATABASE_PASSWORD: postgres
