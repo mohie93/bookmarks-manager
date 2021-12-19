@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get    '/bookmarks'                , action: :index             , controller: 'bookmarks'
   post   '/bookmarks'                , action: :create            , controller: 'bookmarks'
   get    '/bookmarks/:id'            , action: :show              , controller: 'bookmarks'
-  get    '/bookmarks/:short_url/url' , action: :show_by_short_url , controller: 'bookmarks'
   put    '/bookmarks/:id'            , action: :update            , controller: 'bookmarks'
   delete '/bookmarks/:id'            , action: :delete            , controller: 'bookmarks'
 
