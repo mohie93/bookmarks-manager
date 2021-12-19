@@ -27,7 +27,7 @@ Web App to manage web-bookmarks
 - Run command `git push heroku main` to build the code
 
 ## Todos:
-- [ ] Add CI to manage deployment to reduce human errors
+- [ ] Improve API Docs as it's too basic
 - [ ] Apply V2 todos
 - [ ] Apply v3 todos
 
