@@ -1,0 +1,49 @@
+name: Rails Test
+on:
+  push:
+    branches:
+      - *
+  pull_request:
+    branches:
+      - main
+      - staging
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    strategy:
+      matrix:
+        ruby-version: ["3.0.3"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - name: Run db migration
+        run: bundle exec rails db:migrate
+        env:
+          BOOKMARK_MANAGER_API_DATABASE_USERNAME: postgres
+          BOOKMARK_MANAGER_API_DATABASE_PASSWORD: postgres
+          BOOKMARK_MANAGER_API_DATABASE_HOST: localhost
+      - name: Run tests
+        run: bundle exec rspec
+        env:
+          BOOKMARK_MANAGER_API_DATABASE_USERNAME: postgres
+          BOOKMARK_MANAGER_API_DATABASE_PASSWORD: postgres
+          BOOKMARK_MANAGER_API_DATABASE_HOST: localhost
+          ENVIRONMENT: TEST
