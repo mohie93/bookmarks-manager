@@ -82,24 +82,65 @@ RSpec.describe "Bookmarks", type: :request do
   end
 
   describe "Update /bookmarks/:id" do
-    it 'returns 202 status and update bookmark record' do
+    # @TODO: @Mohie to investigate why not recognise "put bookmarks_path, :params => {id: bookmark.id}"
+    it 'returns 202 status and update bookmark record and create site' do
+      FactoryBot.create(:site)
+      bookmark = FactoryBot.create(:bookmark)
+      put "/bookmarks/#{bookmark.id}", :params => { bookmark: {title: 'new title', url: 'https://www.pets.com/dogs'} }
+      expect(Site.count).to eq(2)
+      expect(Bookmark.count).to eq(1)
+      expect(response).to have_http_status(202)
+      expect(JSON.parse(response.body)['data']['url']).to_not eql(bookmark.url)
+      expect(JSON.parse(response.body)['data']['title']).to_not eql(bookmark.url)
+      expect(JSON.parse(response.body)['data']['site_id']).to_not eql(bookmark.site_id)
+      expect(JSON.parse(response.body)['data']['short_url']).to_not eql(bookmark.short_url)
+    end
 
+    it 'returns 202 status and update bookmark record without creating site' do
+      FactoryBot.create(:site)
+      bookmark = FactoryBot.create(:bookmark)
+      put "/bookmarks/#{bookmark.id}", :params => { bookmark: {title: 'new title', url: 'https://www.google.com/cats'} }
+      expect(Site.count).to eq(1)
+      expect(Bookmark.count).to eq(1)
+      expect(response).to have_http_status(202)
+      expect(JSON.parse(response.body)['data']['url']).to_not eql(bookmark.url)
+      expect(JSON.parse(response.body)['data']['title']).to_not eql(bookmark.url)
+      expect(JSON.parse(response.body)['data']['site_id']).to eql(bookmark.site_id)
+      expect(JSON.parse(response.body)['data']['short_url']).to_not eql(bookmark.short_url)
     end
 
     it 'returns 404 status if no bookmark found' do
-
+      put "/bookmarks/5", :params => { bookmark: {title: 'new title', url: 'https://www.google.com/cats'} }
+      expect(Site.count).to eq(0)
+      expect(Bookmark.count).to eq(0)
+      expect(response).to have_http_status(404)
     end
 
     it 'returns 400 status if title is missing' do
-
+      FactoryBot.create(:site)
+      bookmark = FactoryBot.create(:bookmark)
+      put "/bookmarks/#{bookmark.id}", :params => { bookmark: { url: 'https://www.google.com/cats'} }
+      expect(Site.count).to eq(1)
+      expect(Bookmark.count).to eq(1)
+      expect(response).to have_http_status(400)
     end
 
     it 'returns 400 status if url is missing' do
-
+      FactoryBot.create(:site)
+      bookmark = FactoryBot.create(:bookmark)
+      put "/bookmarks/#{bookmark.id}", :params => { bookmark: { title: 'new title' } }
+      expect(Site.count).to eq(1)
+      expect(Bookmark.count).to eq(1)
+      expect(response).to have_http_status(400)
     end
 
     it 'returns 400 status if url is invalid' do
-
+      FactoryBot.create(:site)
+      bookmark = FactoryBot.create(:bookmark)
+      put "/bookmarks/#{bookmark.id}", :params => { bookmark: { url: 'Hello World'} }
+      expect(Site.count).to eq(1)
+      expect(Bookmark.count).to eq(1)
+      expect(response).to have_http_status(400)
     end
   end
 
