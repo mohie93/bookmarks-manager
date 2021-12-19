@@ -4,7 +4,7 @@ class BookmarksController < ApplicationController
   def index
     begin
       bookmarks = Bookmark.all
-      render json: { message: :success, data: bookmarks }, status: :ok
+      render json: { message: :success, data: bookmarks }, status: (bookmarks.empty? ? :not_found : :ok)
     rescue NotFoundError => error
       render json: { message: :success, data: [], error: error }, status: :not_found
     end
@@ -13,9 +13,7 @@ class BookmarksController < ApplicationController
   def create
     begin
       @bookmark = Bookmark.new(bookmark_params)
-      @site = Site.find_or_create_by(address: Site.extract_site_name(@bookmark.url))
-      @bookmark.site_id = @site.id
-      @bookmark.shorten_url
+      find_or_create_site_then_shrink_url
       if @bookmark.save
         render json: { message: :success, data: @bookmark }, status: :created
       else
@@ -34,9 +32,7 @@ class BookmarksController < ApplicationController
     begin
       @bookmark.url = bookmark_params['url']
       @bookmark.title = bookmark_params['title']
-      @site = Site.find_or_create_by(address: Site.extract_site_name(@bookmark.url))
-      @bookmark.site_id = @site.id
-      @bookmark.shorten_url
+      find_or_create_site_then_shrink_url
       if @bookmark.save
         render json: { message: :success, data: @bookmark }, status: :accepted
       else
@@ -60,6 +56,12 @@ class BookmarksController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render json: { message: :not_found, data: @bookmark }, status: :not_found
     end
+  end
+
+  def find_or_create_site_then_shrink_url
+    @site = Site.find_or_create_by(address: Site.extract_site_name(@bookmark.url))
+    @bookmark.site_id = @site.id
+    @bookmark.shorten_url
   end
 
   def bookmark_params
