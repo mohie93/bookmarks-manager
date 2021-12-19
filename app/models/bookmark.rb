@@ -1,6 +1,6 @@
 class BookmarkUrlValidator < ActiveModel::Validator
   def validate(record)
-    url_valid = record.url.match('^(http|https):\/\/|[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/ix')
+    url_valid = record.url.present? && record.url.match('^(http|https):\/\/|[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$/ix')
     record.errors.add :base, "Invalid URL" unless url_valid
   end
 end
