@@ -20,6 +20,7 @@ Web App to manage web-bookmarks
 - Hit API via postman to `http://localhost:4000`
 
 ## How to deploy the app:
+- Current API URL: `https://staging-bookmark-manager.herokuapp.com`
 - Make sure you have heroku on your machine installed
 - Get login credentials from your peers
 - Login to heroku
