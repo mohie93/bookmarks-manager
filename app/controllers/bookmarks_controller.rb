@@ -24,6 +24,15 @@ class BookmarksController < ApplicationController
     end
   end
 
+  def find_by_short_url_code
+    @bookmark = Bookmark.find_by(short_url: params[:short_url_code])
+    if @bookmark.present?
+      redirect_to @bookmark.url
+    else
+      render json: { message: :not_found, data: @bookmark }, status: :not_found
+    end
+  end
+
   def show
     render json: { message: :success, data: @bookmark }, status: :ok
   end

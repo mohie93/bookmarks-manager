@@ -81,6 +81,25 @@ RSpec.describe "Bookmarks", type: :request do
 
   end
 
+  describe "Show /bookmarks/:short_url_code/urls" do
+    it 'returns 302 status and return original URL' do
+      FactoryBot.create(:site)
+      bookmark = FactoryBot.create(:bookmark)
+      get "/bookmarks/#{bookmark.short_url}/urls"
+      expect(Bookmark.count).to eq(1)
+      # expect(JSON.parse(response.body)['data']['url']).to eq(bookmark.url)
+      expect(response).to redirect_to(bookmark.url)
+      expect(response).to have_http_status(302)
+    end
+
+    it 'returns 404 status no URL found' do
+      get "/bookmarks/invalid_short_url/urls"
+      expect(Bookmark.count).to eq(0)
+      expect(response).to have_http_status(404)
+    end
+
+  end
+
   describe "Update /bookmarks/:id" do
     # @TODO: @Mohie to investigate why not recognise "put bookmarks_path, :params => {id: bookmark.id}"
     it 'returns 202 status and update bookmark record and create site' do
